@@ -1,0 +1,66 @@
+{
+  "book": [
+    {
+      "code": "B0-12",
+      "name": "hay",
+      "quantity": 12,
+      "day": "2024-02-01",
+      "category": "kinh dị",
+      "id": 3
+    },
+    {
+      "code": "BO-22",
+      "name": "khong gian",
+      "day": "2024-10-29",
+      "quantity": 22,
+      "category": "lãng mạng",
+      "id": 6
+    },
+    {
+      "code": "BO-23",
+      "name": "AN LÀNH",
+      "day": "2024-10-28",
+      "quantity": 2,
+      "category": "tình yêu",
+      "id": 7
+    },
+    {
+      "code": "BO-1234",
+      "name": "sdwd",
+      "day": "2024-10-28",
+      "quantity": 222,
+      "category": "lãng mạng",
+      "id": 8
+    },
+    {
+      "code": "BO-1222",
+      "name": "SDFD",
+      "day": "2024-10-28",
+      "quantity": 1,
+      "category": "kinh dị",
+      "id": 9
+    },
+    {
+      "code": "BO-1332",
+      "name": "ưqedds",
+      "day": "2024-10-28",
+      "quantity": 12,
+      "category": "tình yêu",
+      "id": 10
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "name": "kinh dị"
+    },
+    {
+      "id": 2,
+      "name": "lãng mạng"
+    },
+    {
+      "id": 3,
+      "name": "tình yêu"
+    }
+  ]
+}

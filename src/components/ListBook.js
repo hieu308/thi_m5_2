@@ -6,22 +6,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {toast} from "react-toastify";
 import {Formik, Field, Form as FormikForm, ErrorMessage} from "formik";
 
-function ListPhone() {
+function ListBook() {
     const navigate = useNavigate();
-    const [phones, setPhones] = useState([]);
-    const [phoneToDelete, setPhoneToDelete] = useState([]);
-    const [phoneToEdit, setPhoneToEdit] = useState([]);
+    const [books, setBook] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(""); // State cho tìm kiếm
+    const [searchTerm, setSearchTerm] = useState("");
     const [searchCategories, setSearchCategories] = useState("");
 
     useEffect(() => {
         async function getPhones() {
             try {
-                const response = await axios.get("http://localhost:3090/smartPhone");
-                setPhones(response.data);
+                const response = await axios.get("http://localhost:3070/book");
+                setBook(response.data);
             } catch (err) {
                 console.log(err);
             }
@@ -29,7 +25,7 @@ function ListPhone() {
 
         async function getCategories() {
             try {
-                const response = await axios.get("http://localhost:3090/category");
+                const response = await axios.get("http://localhost:3070/category");
                 setCategories(response.data);
             } catch (error) {
                 console.log(error);
@@ -38,26 +34,9 @@ function ListPhone() {
 
         getPhones()
         getCategories();
-    }, [phones]);
-    const handleEditClick = (phone) => {
-        // setBookToEdit({nameBook: book.nameBook, quantity: book.quantity, category: book.category, id: book.id});
-        // setShowEditModal(true);
-        navigate(`/edit/${phone.id}`);
-    };
-    const handleDeleteClick = (phone) => {
-        setPhoneToDelete(phone);
-        setShowDeleteModal(true);
-    };
-    const handleConfirmDelete = async () => {
-        setShowDeleteModal(false)
-        try {
-            await axios.delete(`http://localhost:3090/smartPhone/${phoneToDelete.id}`);
-            toast.success('xoá thành công.');
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    const list = phones.filter(book => book.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    }, []);
+
+    const list = books.filter(book => book.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         book.category.includes(searchCategories)
     )
     return (
@@ -108,50 +87,43 @@ function ListPhone() {
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>Code</th>
                         <th>Title</th>
-                        <th>Quantity</th>
+                        <th>DayEnter</th>
                         <th>Category</th>
-                        <th>Actions</th>
+                        <th>Quantity</th>
+
+
                     </tr>
                     </thead>
                     <tbody>
-                    {list.map((phone, index) => (
-                            <tr key={phone.id}>
-                                <td>{index + 1}</td>
-                                <td>{phone.name}</td>
-                                <td>{phone.quantity}</td>
-                                <td>{phone.category}</td>
-                                <td>
-                                    <Button variant="primary" size="sm" className="me-2"
-                                            onClick={() => handleEditClick(phone)}
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button variant="danger" size="sm" onClick={() => handleDeleteClick(phone)}>
-                                        Delete
-                                    </Button>
-                                </td>
+
+
+                    {
+                        list.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" style={{ textAlign: 'center' }}>Không tìm thấy</td>
                             </tr>
-                        ))}
+                        ) : (
+                            list.sort((a, b) => a.quantity - b.quantity).map((book, index) => (
+                                <tr key={book.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{book.code}</td>
+                                    <td>{book.name}</td>
+                                    <td>{book.day}</td>
+                                    <td>{book.category}</td>
+                                    <td>{book.quantity}</td>
+                                </tr>
+                            ))
+                        )
+                    }
+
                     </tbody>
                 </Table>
-                <Modal show={showDeleteModal}>
-                    <Modal.Header closeButton onClick={() => setShowDeleteModal(false)}>
-                        <Modal.Title>Xác Nhận</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn xóa sách "{phoneToDelete?.nameBook}" không?</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-                            Hủy
-                        </Button>
-                        <Button variant="danger" onClick={handleConfirmDelete}>
-                            Xóa
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+
             </div>
         </>
     )
 }
 
-export default ListPhone
+export default ListBook
